@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: locoingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /benis
+        pathType: Prefix
+        backend:
+          service:
+            name: benisservice
+            port:
+              number: 80
+      - path: /pepis
+        pathType: Prefix
+        backend:
+          service:
+            name: pepisservice
+            port:
+              number: 80
+

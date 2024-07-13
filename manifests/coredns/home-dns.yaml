@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: home-dns
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homedns-config
+  namespace: home-dns
+data:
+  Corefile: |
+    .:53 {
+        forward . 8.8.8.8 9.9.9.9
+        file /etc/coredns/vmnet.io.zone vmnet.io
+        log
+        errors
+        cache 30
+    }
+  vmnet.io.zone: |
+    $ORIGIN vmnet.io.
+    $TTL 3600
+    @   IN  SOA ns1.vmnet.io. admin.vmnet.io. (
+            2023071101 ; Serial
+            7200       ; Refresh
+            1800       ; Retry
+            1209600    ; Expire
+            3600       ; Minimum TTL
+    )
+    @       IN  NS      ns1.vmnet.io.
+    @       IN  A       192.168.0.205
+    ns1     IN  A       192.168.0.205
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-dns
+  namespace: home-dns
+  labels:
+    app: home-dns
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: home-dns
+  template:
+    metadata:
+      labels:
+        app: home-dns
+    spec:
+      containers:
+      - name: coredns
+        image: coredns/coredns:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/coredns
+        ports:
+        - containerPort: 53
+          name: dns
+          protocol: UDP
+        - containerPort: 53
+          name: dns-tcp
+          protocol: TCP
+      volumes:
+      - name: config-volume
+        configMap:
+          name: homedns-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: home-dns
+  namespace: home-dns
+  annotations:
+    metallb.universe.tf/ip-allocated-from-pool: dns-ippool
+    metallb.universe.tf/loadBalancerIPs: 192.168.0.53
+spec:
+  type: LoadBalancer
+  selector:
+    app: home-dns
+  ports:
+  - name: dns
+    port: 53
+    protocol: UDP
+    targetPort: 53
+  - name: dns-tcp
+    port: 53
+    protocol: TCP
+    targetPort: 53
+

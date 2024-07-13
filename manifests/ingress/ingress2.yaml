@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-perro
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: '*.svc.cluster.local'
+    http:
+      paths:
+      - path: /a
+        pathType: Prefix
+        backend:
+          service:
+            name: pepisservice
+            port:
+              number: 80
+      - path: /b
+        pathType: Prefix
+        backend:
+          service:
+            name: benisservice
+            port:
+              number: 80
+
+
+
