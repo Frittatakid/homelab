@@ -12,6 +12,7 @@ The goal of this setup is to deploy a Kubernetes cluster within Proxmox VMs. Wit
 ## Proxmox VMs
 - **Master Node**: One VM
 - **Worker Node**: One VM
+- **Pihole DNS server**: One VM
 
 ## Setup Steps
 
@@ -33,17 +34,27 @@ The goal of this setup is to deploy a Kubernetes cluster within Proxmox VMs. Wit
 
 1. Install essential packages:
    ```sh
-   sudo apt-get install sudo vim curl
+   apt-get install sudo vim curl sudo openssh-server
+
    ```
 2. Add your user as sudo
-   ```sh
-   sudo adduser <user> sudo
-   ```
+```sh
+sudo adduser <user> sudo
+```
 3. Disable swap (this is really important, the kubelet will not work if you don't do it.)
-   ```
-   sudo swapoff -a
-   sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
-   ```
+```
+sudo swapoff -a
+sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+```
+4. Maybe set a static ip in /etc/network/interfaces
+```
+iface ens18 inet static
+   address 192.168.0.x
+   netmask 255.255.255.0
+   gateway 192.168.0.1
+   dns-domain vmnet.io
+   dns-nameservers 8.8.8.8
+```
 
 ### Preparing for the cluster deployment
 
