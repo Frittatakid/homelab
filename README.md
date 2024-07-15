@@ -16,10 +16,10 @@ The goal of this setup is to deploy a Kubernetes cluster within Proxmox VMs. Wit
 
 ## Setup Steps
 
-1. [Set up Proxmox, Create VMs, Install Debian on Them](setup_proxmox.md)
-2. [Install `kubectl`, `kubeadm`](install_kubectl_kubeadm.md)
-3. [Install the Kubernetes Cluster via `kubeadm`](install_kubernetes.md)
-4. [Set up Networking Aspects](setup_networking.md)
+1. Set up Proxmox, Create VMs, Install Debian on Them
+2. Install `kubectl`, `kubeadm`
+3. Install the Kubernetes Cluster via `kubeadm`
+4. Set up Networking Aspects
 
 # 1. Set up Proxmox, Create VMs, Install Debian on Them
 
@@ -128,3 +128,15 @@ MetalLB provides a network load balancer implementation for Kubernetes. It allow
    - Also you may want a static address for your DNS server that we will install in the cluster and expose externally.
 3. **Set up l2 advertisement**
    - In metallb there are two modes, BGP and l2. In this case, as we are just working with a single network, we use L2 mode.  
+
+
+
+
+
+
+
+   we need nfs to mount the nas
+   
+apt install nfs-common
+
+mount -t nfs 192.168.0.222:/volume1/nas /var/nfs/
