@@ -139,4 +139,9 @@ MetalLB provides a network load balancer implementation for Kubernetes. It allow
    
 apt install nfs-common
 
-mount -t nfs 192.168.0.222:/volume1/nas /var/nfs/
+run this to add to fstab the mount so it mounts on restart
+echo "192.168.0.222:/volume1/nas    /var/nfs/    nfs    default    0  0" >> /etc/fstab
+
+you can run then this if you dont want to reboot
+mount -a
+systemctl daemon-reload
