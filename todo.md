@@ -12,3 +12,5 @@ Think about implementing Audio solution too!
 
 Implement a dashboard for everything
     - [homer](https://hub.docker.com/r/b4bz/homer)
+
+Look for some way to make uploading/syncing files from android to the NAS easy
