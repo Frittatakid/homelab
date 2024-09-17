@@ -23,3 +23,23 @@ spec:
         name: jellyfin
         ports:
         - containerPort: 8096
+        volumeMounts:
+          - mountPath: /config
+            name: config
+            readOnly: false
+          - mountPath: /data/tvshows
+            name: shows
+            readOnly: false
+          - mountPath: /data/movies
+            name: movies
+            readOnly: false
+      volumes:
+        - name: config
+          hostPath:
+            path: "/var/nfs/vmnet/svc/config/jellystack/jellyfin" # directory location on host
+        - name: tvshows
+          hostPath:
+            path: "/var/nfs/#0media/shows"
+        - name: movies
+          hostPath:
+            path: "/var/nfs/#0media/movies"

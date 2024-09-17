@@ -26,3 +26,9 @@ The Ip range will be 192.168.0.230-240
 
 I created jellyfin-lb.yaml, which exposed the jellyfin server on the specific address pool which i created beforehand (ippool-jellystack.yaml)
 exposing the jellyfin port to port 80 for ease of access.
+
+
+-for some reason using a non default ip address pool is not working, the service comes up and seems to be exposing the pods, but im unable to access the address.
+-successfully exposed all the services, all of them are working.
+-created a directory on the NAS to store the config and variable files for each service, as in the situation they are recreated the configuration would be lost.
+-mounting all these directories to the deployment's pods.

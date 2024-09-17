@@ -4,14 +4,14 @@ metadata:
   annotations:
     metallb.universe.tf/address-pool: default
   labels:
-    app: sonarr
-  name: sonarr
+    app: jellyseerr
+  name: jellyseerr
   namespace: jellystack
 spec:
   selector:
-    app: sonarr
+    app: jellyseerr
   ports:
     - port: 80
-      targetPort: 8989
+      targetPort: 5055
   type: LoadBalancer
-  loadBalancerIP: 192.168.0.215
+  loadBalancerIP: 192.168.0.220
