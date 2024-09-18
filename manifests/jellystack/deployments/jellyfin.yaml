@@ -28,7 +28,7 @@ spec:
             name: config
             readOnly: false
           - mountPath: /data/tvshows
-            name: shows
+            name: tvshows
             readOnly: false
           - mountPath: /data/movies
             name: movies

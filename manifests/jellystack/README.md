@@ -22,7 +22,7 @@ I will be exposing each one of those services as clusterIPs and then using an in
 
 v.0.1.
 I will expose individually each service through a LB to make sure they all work alright.
-The Ip range will be 192.168.0.230-240
+The Ip range will be 192.168.0.210-220
 
 I created jellyfin-lb.yaml, which exposed the jellyfin server on the specific address pool which i created beforehand (ippool-jellystack.yaml)
 exposing the jellyfin port to port 80 for ease of access.
