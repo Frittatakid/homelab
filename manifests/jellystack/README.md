@@ -32,3 +32,22 @@ exposing the jellyfin port to port 80 for ease of access.
 -successfully exposed all the services, all of them are working.
 -created a directory on the NAS to store the config and variable files for each service, as in the situation they are recreated the configuration would be lost.
 -mounting all these directories to the deployment's pods.
+
+
+------------------
+
+Seems like radarr and sonarr do not like being containerized, their databases get corrupted easily.
+As a solution I have found that migrating the database to postgres is a solution.
+
+I have created postgres-radarr.yaml and postgres-sonarr.yaml that spin up the database pods.
+Sonarr and radarr need specific databases existing in postgres too, to create them:
+
+Exec into the pod:
+k exec -n db -it postgres-sonarr-xxxxxxxxxxxxxxxxxx -- /bin/bash
+psql -U postgres
+CREATE DATABASE "sonarr-main"; (or radarr-main)
+CREATE DATABASE "sonarr-log"; (or radarr-log)
+
+info about this migration in : https://wiki.servarr.com/sonarr/postgres-setup
+
+after the database is running and exposed, you gotta change the config on the database config.xml, reference on its own directory

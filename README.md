@@ -145,3 +145,13 @@ echo "192.168.0.222:/volume1/nas    /var/nfs/    nfs    default    0  0" >> /etc
 you can run then this if you dont want to reboot
 mount -a
 systemctl daemon-reload
+
+
+
+
+Install the metrics server to check on the server's metrics (kubectl top x for example)
+
+kubectl apply -f .\manifests\metrics-server\components.yaml
+
+this yaml is a modified version of the one in https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+adding the --kubelet-insecure-tls flag to the deployment, as it wont work otherwise.
