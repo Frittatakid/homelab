@@ -55,6 +55,9 @@ iface ens18 inet static
    dns-domain vmnet.io
    dns-nameservers 8.8.8.8
 ```
+5. set up /etc/fstab for automatic mount of nfs
+   
+echo "192.168.0.80:/volume1/nas    /var/nfs/    nfs    default    0  0" >> /etc/fstab
 
 ### Preparing for the cluster deployment
 
@@ -111,9 +114,12 @@ The nginx ingress controller manages incoming traffic and routes it to the appro
 
 1. **Install the nginx ingress controller**:
    - Follow the [nginx ingress controller installation guide](https://kubernetes.github.io/ingress-nginx/deploy/).
-
+     kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0-beta.0/deploy/static/provider/baremetal/deploy.yaml
 2. **Set up a hostname**:
    - If you don't have a hostname, you can use cluster paths. Refer to the [nginx ingress controller guide](https://kubernetes.github.io/ingress-nginx/deploy/) for details on configuring hostnames and paths.
+
+## Install calico
+https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises
 
 ## Install MetalLB
 
@@ -122,7 +128,7 @@ MetalLB provides a network load balancer implementation for Kubernetes. It allow
 1. **Install MetalLB**:
    - Follow the [MetalLB installation guide](https://metallb.universe.tf/installation/).
    - Apply the manifest
-
+     kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
 2. **Configure IP pools**:
    - Create a generic auto-assign pool and a specific pool for the DNS server.
    - Also you may want a static address for your DNS server that we will install in the cluster and expose externally.

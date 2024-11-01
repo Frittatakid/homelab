@@ -43,3 +43,23 @@ spec:
         - name: movies
           hostPath:
             path: "/var/nfs/#0media/movies"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/address-pool: default
+  labels:
+    app: jellyfin
+  name: jellyfin
+  namespace: jellystack
+spec:
+  selector:
+    app: jellyfin
+  ports:
+    - port: 80
+      targetPort: 8096
+  type: LoadBalancer
+  loadBalancerIP: 192.168.0.210

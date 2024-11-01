@@ -1,7 +1,0 @@
-<Config>
-  ...
-  <PostgresUser>postgres</PostgresUser>
-  <PostgresPassword>postgres</PostgresPassword>
-  <PostgresPort>5432</PostgresPort>
-  <PostgresHost>postgres-sonarr-service.db.svc.cluster.local</PostgresHost>
-</Config>

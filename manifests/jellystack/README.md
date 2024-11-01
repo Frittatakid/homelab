@@ -50,4 +50,25 @@ CREATE DATABASE "sonarr-log"; (or radarr-log)
 
 info about this migration in : https://wiki.servarr.com/sonarr/postgres-setup
 
-after the database is running and exposed, you gotta change the config on the database config.xml, reference on its own directory
+after the database is running and exposed, you gotta change the config on the database config.xml adding the following:
+Radarr:
+
+<Config>
+...
+<PostgresUser>postgres</PostgresUser>
+<PostgresPassword>postgres</PostgresPassword>
+<PostgresPort>5432</PostgresPort>
+<PostgresHost>postgres-radarr-service.db.svc.cluster.local</PostgresHost>
+</Config>
+
+Sonarr:
+<Config>
+...
+<PostgresUser>postgres</PostgresUser>
+<PostgresPassword>postgres</PostgresPassword>
+<PostgresPort>5432</PostgresPort>
+<PostgresHost>postgres-sonarr-service.db.svc.cluster.local</PostgresHost>
+</Config>
+
+Jellyfin is prone to bad performance when containerized too unfortunately (due to the same database shenanigans), 
+the issue here is that there is no option for postgres with it so it will have to go outside the cluster into a VM.
