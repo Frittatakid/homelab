@@ -1,12 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: internalingress-jellystack
+  name: jellystack-ingress
   namespace: jellystack
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx  # Adjust this if your Ingress class name is different
+  tls:
+    - hosts:
+        - jellyfin.frittylab.xyz
+        - jellyseerr.frittylab.xyz
+        - sonarr.frittylab.xyz
+        - radarr.frittylab.xyz
+        - jackett.frittylab.xyz
+        - transmission.frittylab.xyz
+        - bazarr.frittylab.xyz
+      secretName: frittylab-tls
   rules:
-    - host: jellyfin.vmnet.lan
+    - host: jellyfin.frittylab.xyz
       http:
         paths:
           - path: /
@@ -16,17 +29,17 @@ spec:
                 name: jellyfin
                 port:
                   number: 8096
-    - host: jellyseer.vmnet.lan
+    - host: jellyseerr.frittylab.xyz
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: jellyseer
+                name: jellyseerr
                 port:
                   number: 80
-    - host: sonarr.vmnet.lan
+    - host: sonarr.frittylab.xyz
       http:
         paths:
           - path: /
@@ -36,7 +49,7 @@ spec:
                 name: sonarr
                 port:
                   number: 80
-    - host: radarr.vmnet.lan
+    - host: radarr.frittylab.xyz
       http:
         paths:
           - path: /
@@ -44,5 +57,35 @@ spec:
             backend:
               service:
                 name: radarr
+                port:
+                  number: 80
+    - host: jackett.frittylab.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jackett
+                port:
+                  number: 80
+    - host: transmission.frittylab.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: transmission
+                port:
+                  number: 80
+    - host: bazarr.frittylab.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bazarr
                 port:
                   number: 80
