@@ -20,13 +20,13 @@ spec:
           image: ghcr.io/museofficial/muse:latest
           env:
             - name: DISCORD_TOKEN
-              value: ""
+              value: "token"
             - name: YOUTUBE_API_KEY
-              value: ""
+              value: "token"
             - name: SPOTIFY_CLIENT_ID
-              value: ""
+              value: "token"
             - name: SPOTIFY_CLIENT_SECRET
-              value: ""
+              value: "token"
           volumeMounts:
             - name: muse-data
               mountPath: /data
