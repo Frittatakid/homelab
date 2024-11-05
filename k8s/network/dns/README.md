@@ -1,7 +1,5 @@
+# Adguard
+https://github.com/AdguardTeam/AdGuardHome
 
-V2.
-will create an adguard server to see klk
-
-
-
+Access the service through port 3000 the first time for the installation.
 

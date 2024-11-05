@@ -33,21 +33,25 @@ The goal of this setup is to deploy a Kubernetes cluster within Proxmox VMs. Wit
 ## Within Debian
 
 1. Install essential packages:
-   ```sh
-   apt-get install sudo vim curl sudo openssh-server
-
    ```
+sh
+apt-get install sudo vim curl sudo openssh-server
+```
+
 2. Add your user as sudo
-```sh
+   ```
+sh
 sudo adduser <user> sudo
 ```
+
 3. Disable swap (this is really important, the kubelet will not work if you don't do it.)
-```
+   ```
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 4. Maybe set a static ip in /etc/network/interfaces
-```
+   
+   ```
 iface ens18 inet static
    address 192.168.0.x
    netmask 255.255.255.0
@@ -56,9 +60,9 @@ iface ens18 inet static
    dns-nameservers 8.8.8.8
 ```
 5. set up /etc/fstab for automatic mount of nfs
-   
+   ```
 echo "192.168.0.80:/volume1/nas    /var/nfs/    nfs    default    0  0" >> /etc/fstab
-
+```
 ### Preparing for the cluster deployment
 
 ## Install kubeadm

@@ -9,16 +9,3 @@ spec:
   ports:
     - port: 8006
       protocol: TCP
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: pihole
-  namespace: notinkube
-spec:
-  type: ExternalName
-  externalName: 192.168.0.53  # External IP for Pi-hole
-  ports:
-    - port: 80
-      protocol: TCP
