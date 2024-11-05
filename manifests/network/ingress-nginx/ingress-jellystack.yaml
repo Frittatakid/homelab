@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: internalingress-jellystack
+  namespace: jellystack
+spec:
+  ingressClassName: nginx  # Adjust this if your Ingress class name is different
+  rules:
+    - host: jellyfin.vmnet.lan
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jellyfin
+                port:
+                  number: 8096
+    - host: jellyseer.vmnet.lan
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jellyseer
+                port:
+                  number: 80
+    - host: sonarr.vmnet.lan
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sonarr
+                port:
+                  number: 80
+    - host: radarr.vmnet.lan
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: radarr
+                port:
+                  number: 80

@@ -8,6 +8,6 @@ metadata:
   uid: 4e016a12-c1b0-4057-b3da-770ba00a1b08
 spec:
   addresses:
-  - 192.168.0.70-192.168.0.99
+  - 192.168.0.50-192.168.0.99
   autoAssign: true
   avoidBuggyIPs: false

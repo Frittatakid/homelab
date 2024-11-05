@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adguardhome
+  namespace: dns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adguardhome
+  template:
+    metadata:
+      labels:
+        app: adguardhome
+    spec:
+      containers:
+        - name: adguardhome
+          image: adguard/adguardhome:latest
+          volumeMounts:
+            - name: workdir
+              mountPath: /opt/adguardhome/work
+            - name: confdir
+              mountPath: /opt/adguardhome/conf
+      volumes:
+        - name: workdir
+          hostPath:
+            path: "/var/nfs/vmnet/svc/dns/adguard/workdir"
+        - name: confdir
+          hostPath:
+            path: "/var/nfs/vmnet/svc/dns/adguard/config"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adguardhome
+  namespace: dns
+  annotations:
+    metallb.universe.tf/address-pool: default
+spec:
+  selector:
+    app: adguardhome
+  ports:
+    - port: 53
+      name: "53t"
+      targetPort: 53
+      protocol: TCP
+    - port: 53
+      name: "53u"
+      targetPort: 53
+      protocol: UDP
+    - port: 67
+      name: "67u"
+      targetPort: 67
+      protocol: UDP
+    - port: 68
+      name: "68u"
+      targetPort: 68
+      protocol: UDP
+    - port: 80
+      name: "80t"
+      targetPort: 80
+      protocol: TCP
+    - port: 443
+      name: "443t"
+      targetPort: 443
+      protocol: TCP
+    - port: 443
+      name: "443u"
+      targetPort: 443
+      protocol: UDP
+    - port: 3000
+      name: "3000t"
+      targetPort: 3000
+      protocol: TCP
+    - port: 853
+      name: "853t"
+      targetPort: 853
+      protocol: TCP
+    - port: 853
+      name: "853u"
+      targetPort: 853
+      protocol: UDP
+    - port: 784
+      name: "784u"
+      targetPort: 784
+      protocol: UDP
+    - port: 8853
+      name: "8853u"
+      targetPort: 8853
+      protocol: UDP
+    - port: 5443
+      name: "5443t"
+      targetPort: 5443
+      protocol: TCP
+    - port: 5443
+      name: "5443u"
+      targetPort: 5443
+      protocol: UDP
+  type: LoadBalancer
+  loadBalancerIP: 192.168.0.53

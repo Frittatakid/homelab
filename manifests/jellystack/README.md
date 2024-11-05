@@ -72,3 +72,12 @@ Sonarr:
 
 Jellyfin is prone to bad performance when containerized too unfortunately (due to the same database shenanigans), 
 the issue here is that there is no option for postgres with it so it will have to go outside the cluster into a VM.
+
+
+k apply -f manifests/jellystack/deployments+ingress/bazarr.yaml
+k apply -f manifests/jellystack/deployments+ingress/jackett.yaml
+k apply -f manifests/jellystack/deployments+ingress/jellyfin.yaml
+k apply -f manifests/jellystack/deployments+ingress/jellyseerr.yaml
+k apply -f manifests/jellystack/deployments+ingress/radarr.yaml
+k apply -f manifests/jellystack/deployments+ingress/sonarr.yaml
+k apply -f manifests/jellystack/deployments+ingress/transmission.yaml

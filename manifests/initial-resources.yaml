@@ -13,4 +13,17 @@ kind: Namespace
 metadata:
   name: nas
 ---
-
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: notinkube
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bot
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dns
