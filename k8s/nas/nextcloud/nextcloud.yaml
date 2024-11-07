@@ -30,7 +30,7 @@ spec:
             - name: NEXTCLOUD_ADMIN_USER
               value: "admin"
             - name: NEXTCLOUD_TRUSTED_DOMAINS
-              value: nextlcoud.frittylab.xyz
+              value: "nextcloud.frittylab.xyz cloud.frittylab.xyz"
           image: nextcloud:latest
           name: nextcloud
           resources:
@@ -46,16 +46,16 @@ spec:
       volumes:
         - name: apps
           hostPath:
-            path: "/var/nfs/vmnet/svc/config/nextcloud/apps" # directory location on host
+            path: "/var/nfs/vmnet/svc/nextcloud/apps" # directory location on host
         - name: config
           hostPath:
-            path: "/var/nfs/vmnet/svc/config/nextcloud/config" # directory location on host
+            path: "/var/nfs/vmnet/svc/nextcloud/config" # directory location on host
         - name: data
           hostPath:
-            path: "/var/nfs/" # directory location on host
+            path: "/var/nfs/vmnet/svc/nextcloud/data" # directory location on host
         - name: html
           hostPath:
-            path: "/var/nfs/vmnet/svc/config/nextcloud/html" # directory location on host
+            path: "/var/nfs/vmnet/svc/nextcloud/html" # directory location on host
 
 ---
 
