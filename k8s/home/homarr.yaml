@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homarr
+  namespace: home
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homarr
+  template:
+    metadata:
+      labels:
+        app: homarr
+    spec:
+      containers:
+        - name: homarr
+          image: ghcr.io/ajnart/homarr:latest
+          volumeMounts:
+            - mountPath: /app/data/configs
+              name: homarr-configs
+            - mountPath: /app/public/icons
+              name: homarr-icons
+            - mountPath: /data
+              name: homarr-data
+      volumes:
+        - name: homarr-configs
+          hostPath:
+            path: /var/nfs/vmnet/svc/config/homarr/configs
+        - name: homarr-icons
+          hostPath:
+            path: /var/nfs/vmnet/svc/config/homarr/icons
+        - name: homarr-data
+          hostPath:
+            path: /var/nfs/vmnet/svc/config/homarr/data
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homarr-service
+  namespace: home
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 192.168.0.51
+  selector:
+    app: homarr
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 7575

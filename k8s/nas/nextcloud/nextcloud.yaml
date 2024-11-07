@@ -1,0 +1,79 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nextcloud
+  namespace: nextcloud
+  labels:
+    app: nextcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextcloud
+  template:
+    metadata:
+      labels:
+        app: nextcloud
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: "nextclouddb"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+            - name: POSTGRES_HOST
+              value: "nextcloud-service.db.svc.cluster.local"
+            - name: NEXTCLOUD_ADMIN_PASSWORD
+              value: "admin"
+            - name: NEXTCLOUD_ADMIN_USER
+              value: "admin"
+            - name: NEXTCLOUD_TRUSTED_DOMAINS
+              value: nextlcoud.frittylab.xyz
+          image: nextcloud:latest
+          name: nextcloud
+          resources:
+          volumeMounts:
+            - name: apps
+              mountPath: /var/www/html/custom_apps
+            - name: config
+              mountPath: /var/www/html/config
+            - name: data
+              mountPath: /var/www/html/data
+            - name: html
+              mountPath: /var/www/html
+      volumes:
+        - name: apps
+          hostPath:
+            path: "/var/nfs/vmnet/svc/config/nextcloud/apps" # directory location on host
+        - name: config
+          hostPath:
+            path: "/var/nfs/vmnet/svc/config/nextcloud/config" # directory location on host
+        - name: data
+          hostPath:
+            path: "/var/nfs/" # directory location on host
+        - name: html
+          hostPath:
+            path: "/var/nfs/vmnet/svc/config/nextcloud/html" # directory location on host
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/address-pool: default
+  labels:
+    app: nextcloud
+  name: nextcloud-service
+  namespace: nextcloud
+spec:
+  selector:
+    app: nextcloud
+  ports:
+    - name: http
+      targetPort: 80
+      port: 80
+  type: LoadBalancer
+  loadBalancerIP: 192.168.0.82

@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: internalingress-notinkube
-  namespace: notinkube
+  name: nextcloud-ingress
+  namespace: nextcloud
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -10,16 +10,27 @@ spec:
   ingressClassName: nginx  # Adjust this if your Ingress class name is different
   tls:
     - hosts:
-        - pihole.frittylab.xyz
+        - nextcloud.frittylab.xyz
+        - cloud.frittylab.xyz
       secretName: frittylab-tls
   rules:
-    - host: adguard.frittylab.xyz
+    - host: nextcloud.frittylab.xyz
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: pihole
+                name: nextcloud-service
+                port:
+                  number: 80
+    - host: cloud.frittylab.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextcloud-service
                 port:
                   number: 80

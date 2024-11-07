@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nas-ingress
+  namespace: nas
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx  # Adjust this if your Ingress class name is different
+  tls:
+    - hosts:
+        - filebrowser.frittylab.xyz
+        - sync.frittylab.xyz
+        - syncthing.frittylab.xyz
+      secretName: frittylab-tls
+  rules:
+    - host: filebrowser.frittylab.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: filebrowser-service
+                port:
+                  number: 80
+    - host: sync.frittylab.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: syncthing-service
+                port:
+                  number: 80
+    - host: syncthing.frittylab.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: syncthing-service
+                port:
+                  number: 80

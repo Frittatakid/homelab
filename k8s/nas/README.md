@@ -16,3 +16,7 @@ ln -r -s shared/ (user directory)
 
 
 
+Nexcloud seems fairly powerful, ill test it on its own namespace installing it through helm.
+
+helm repo add nextcloud https://nextcloud.github.io/helm/
+helm install my-release nextcloud/nextcloud -n nextcloud

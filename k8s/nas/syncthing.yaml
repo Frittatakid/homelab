@@ -40,7 +40,7 @@ metadata:
     metallb.universe.tf/address-pool: default
   labels:
     app: syncthing
-  name: syncthing
+  name: syncthing-service
   namespace: nas
 spec:
   selector:
