@@ -16,3 +16,6 @@ to fix it you got to add/modify the config.php with:
 'overwriteprotocol' => 'https', 
 {...}
 
+if you manually move files into the nextcloud's directory, it will not find them.
+You gotta rescan for those files manually, to do so run the following command.
+kubectl exec -n nextcloud -it (pod name) -- su -s /bin/bash www-data -c "php /var/www/html/occ files:scan --all"
