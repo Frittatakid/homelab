@@ -17,6 +17,9 @@ spec:
         - jackett.frittylab.xyz
         - transmission.frittylab.xyz
         - bazarr.frittylab.xyz
+        - qbittorrent.frittylab.xyz
+        - torrent.frittylab.xyz
+        - prowlarr.frittylab.xyz
       secretName: frittylab-tls
   rules:
     - host: jellyfin.frittylab.xyz
@@ -28,7 +31,7 @@ spec:
               service:
                 name: jellyfin
                 port:
-                  number: 8096
+                  number: 80
     - host: jellyseerr.frittylab.xyz
       http:
         paths:
@@ -87,5 +90,35 @@ spec:
             backend:
               service:
                 name: bazarr
+                port:
+                  number: 80
+    - host: qbittorrent.frittylab.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: qbittorrent
+                port:
+                  number: 80
+    - host: torrent.frittylab.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: qbittorrent
+                port:
+                  number: 80
+    - host: prowlarr.frittylab.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prowlarr
                 port:
                   number: 80

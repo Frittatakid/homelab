@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaresolverr
+  namespace: jellystack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flaresolverr
+  template:
+    metadata:
+      labels:
+        app: flaresolverr
+    spec:
+      containers:
+        - name: flaresolverr
+          image: ghcr.io/flaresolverr/flaresolverr:latest
+          ports:
+            - containerPort: 8191
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaresolverr-service
+  namespace: jellystack
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 192.168.0.79
+  ports:
+    - port: 80
+      targetPort: 8191
+      protocol: TCP
+  selector:
+    app: flaresolverr
